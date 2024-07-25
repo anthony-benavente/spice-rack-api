@@ -34,10 +34,22 @@ const deleteUser = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getUserSpiceInventory = catchAsync(async (req, res) => {
+  const inventory = await userService.getUserSpiceInventory(req.params.userId);
+  res.send(inventory);
+});
+
+const addToSpiceInventory = catchAsync(async (req, res) => {
+  const inventory = await userService.addToInventory(req.params.userId, req.body);
+  res.send(inventory);
+});
+
 module.exports = {
   createUser,
   getUsers,
   getUser,
   updateUser,
   deleteUser,
+  getUserSpiceInventory,
+  addToSpiceInventory,
 };

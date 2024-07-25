@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { User } = require('../models');
+const { User, SpiceInventory, Spice } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -79,6 +79,38 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+const getUserSpiceInventory = async (userId) => {
+  const user = await getUserById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  return SpiceInventory.findOne({ user }).populate('spices.spice');
+}
+
+const addToInventory = async (userId, spiceBody) => {
+  const ObjectId = require('mongoose').Types.ObjectId;
+  const { spiceId, amount } = spiceBody;
+  let inventory = await SpiceInventory.findOne({ user: new ObjectId(userId) }).populate('spices.spice');
+  // create inventory  if it doesn't exist
+  if (!inventory) {
+    inventory = await SpiceInventory.create({ 
+      user: new ObjectId(userId)
+    });
+  }
+
+  // don't add duplicate spices
+  for (let s of inventory.spices) {
+    if (s.spice == spiceId) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Duplicate spice');
+    }
+  }
+
+  const spice = await Spice.findById(spiceId);
+  inventory.spices.push({ spice, amount });
+  await inventory.save();
+  return inventory;
+}
+
 module.exports = {
   createUser,
   queryUsers,
@@ -86,4 +118,6 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  getUserSpiceInventory,
+  addToInventory,
 };

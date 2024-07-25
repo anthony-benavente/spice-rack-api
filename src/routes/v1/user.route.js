@@ -17,6 +17,11 @@ router
   .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
   .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
 
+router
+  .route('/:userId/inventory')
+  .get(validate(userValidation.getUserSpiceInventory), userController.getUserSpiceInventory)
+  .post(validate(userValidation.addToSpiceInventory), userController.addToSpiceInventory);
+
 module.exports = router;
 
 /**

@@ -27,6 +27,22 @@ const getUser = {
   }),
 };
 
+const getUserSpiceInventory = {
+  params: Joi.object().keys({
+    userId: Joi.string().custom(objectId)
+  }),
+};
+
+const addToSpiceInventory = {
+  params: Joi.object().keys({
+    userId: Joi.required().custom(objectId)
+  }),
+  body: Joi.object().keys({
+    spiceId: Joi.required().custom(objectId),
+    amount: Joi.number()
+  })
+};
+
 const updateUser = {
   params: Joi.object().keys({
     userId: Joi.required().custom(objectId),
@@ -52,4 +68,6 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  getUserSpiceInventory,
+  addToSpiceInventory,
 };
