@@ -34,10 +34,16 @@ const deleteSpice = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getBrands = catchAsync(async (req, res) => {
+  const brands = await spiceService.getBrands();
+  res.send(brands);
+});
+
 module.exports = {
   createSpice,
   getSpice,
   getSpices,
   updateSpice,
   deleteSpice,
+  getBrands,
 };

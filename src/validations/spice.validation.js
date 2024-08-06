@@ -19,6 +19,9 @@ const getSpices = {
   }),
 };
 
+const getBrands = {
+};
+
 const getSpice = {
   params: Joi.object().keys({
     id: Joi.string().custom(objectId)
@@ -44,10 +47,12 @@ const deleteSpice = {
   }),
 };
 
+
 module.exports = {
   createSpice,
   getSpices,
   getSpice,
   updateSpice,
   deleteSpice,
+  getBrands,
 };

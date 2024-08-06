@@ -13,6 +13,11 @@ router
   .post(validate(spiceValidation.createSpice), spiceController.createSpice)
   .get(validate(spiceValidation.getSpices), spiceController.getSpices);
 
+
+router  
+  .route('/brands')
+  .get(validate(spiceValidation.getBrands), spiceController.getBrands);
+
 router
   .route('/:spiceId')
   .get(validate(spiceValidation.getSpice), spiceController.getSpice)
@@ -20,7 +25,7 @@ router
 //   .delete(auth('manageSpices'), validate(spiceValidation.deleteSpice), spiceController.deleteSpice);
   .patch(validate(spiceValidation.updateSpice), spiceController.updateSpice)
   .delete(validate(spiceValidation.deleteSpice), spiceController.deleteSpice);
-
+  
 module.exports = router;
 
 /**

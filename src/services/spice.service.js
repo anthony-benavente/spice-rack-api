@@ -72,6 +72,11 @@ const deleteSpiceById = async (spiceId) => {
   return spice;
 };
 
+const getBrands = async () => {
+  const brands = await Spice.collection.distinct('brand');
+  return brands;
+}
+
 module.exports = {
   createSpice,
   querySpices,
@@ -79,4 +84,5 @@ module.exports = {
   getSpiceByName,
   updateSpiceById,
   deleteSpiceById,
+  getBrands,
 };
