@@ -44,6 +44,11 @@ const addToSpiceInventory = catchAsync(async (req, res) => {
   res.send(inventory);
 });
 
+const removeFromSpiceInventory = catchAsync(async (req, res) => {
+  const inventory = await userService.removeFromSpiceInventory(req.params.userId, req.params.spiceInventoryId);
+  res.send(inventory);
+})
+
 module.exports = {
   createUser,
   getUsers,
@@ -52,4 +57,5 @@ module.exports = {
   deleteUser,
   getUserSpiceInventory,
   addToSpiceInventory,
+  removeFromSpiceInventory,
 };

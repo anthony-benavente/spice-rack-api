@@ -79,12 +79,25 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+/**
+ * Gets the spices the user owns
+ * @param {ObjectId} userId 
+ * @returns 
+ */
 const getUserSpiceInventory = async (userId) => {
   const user = await getUserById(userId);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
   return SpiceInventory.findOne({ user }).populate('spices.spice');
+}
+
+const removeFromSpiceInventory = async (userId, spiceInventoryId) => {
+  const ObjectId = require('mongoose').Types.ObjectId;
+  let inventory = await SpiceInventory.findOne({ user: new ObjectId(userId) });
+  await inventory.spices.id(spiceInventoryId).remove();
+  await inventory.save();
+  return inventory;
 }
 
 const addToInventory = async (userId, spiceBody) => {
@@ -120,4 +133,5 @@ module.exports = {
   deleteUserById,
   getUserSpiceInventory,
   addToInventory,
+  removeFromSpiceInventory,
 };

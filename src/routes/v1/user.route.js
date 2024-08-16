@@ -22,6 +22,10 @@ router
   .get(validate(userValidation.getUserSpiceInventory), userController.getUserSpiceInventory)
   .post(validate(userValidation.addToSpiceInventory), userController.addToSpiceInventory);
 
+router
+  .route('/:userId/inventory/:spiceInventoryId')
+  .delete(validate(userValidation.removeFromSpiceInventory), userController.removeFromSpiceInventory);
+
 module.exports = router;
 
 /**
